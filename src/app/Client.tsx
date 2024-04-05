@@ -2,7 +2,7 @@
 
 export default function Client()
 {
-    console.log("Hello from client.tsx 2");
+    console.log("Hello from client.tsx");
 
     return (
         <div>

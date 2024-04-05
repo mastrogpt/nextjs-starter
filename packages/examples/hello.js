@@ -3,5 +3,5 @@
 
 function main(args) {
   let name = args.name || "world"
-  return { "body": "hello, "+name }
+  return { "body": "hellooo, "+name }
 }
