@@ -1,4 +1,9 @@
+"use client";
+import { Service } from "@/types";
 import Image from "next/image";
+import useSWR from "swr";
+const fetcher = (...args: (URL | RequestInfo)[]) =>
+  fetch(...args).then((res) => res.json());
 
 const messagges = [
   {
@@ -9,57 +14,20 @@ const messagges = [
     role: "bot",
     text: "Hello, user!",
   },
-  {
-    role: "user",
-    text: "How are you?",
-  },
-  {
-    role: "bot",
-    text: "I'm fine, thank you!",
-  },
-  {
-    role: "user",
-    text: "What can you do?",
-  },
-  {
-    role: "bot",
-    text: "I can do a lot of things, like generating code!",
-  },
-  {
-    role: "user",
-    text: "Can you generate a Python code?",
-  },
-  {
-    role: "bot",
-    text: "Sure! What do you want me to generate?",
-  },
-  {
-    role: "user",
-    text: "Generate a Python code that prints 'Hello, World!'",
-  },
-  {
-    role: "bot",
-    text: "Here's the Python code that prints 'Hello, World!':\n\nprint('Hello, World!')",
-  },
-  {
-    role: "user",
-    text: "Thank you!",
-  },
-  {
-    role: "bot",
-    text: "You're welcome!",
-  },
-  {
-    role: "user",
-    text: "Goodbye!",
-  },
-  {
-    role: "bot",
-    text: "Goodbye!",
-  },
 ];
 
 export default function Home() {
+  let services: Service[] = [];
+
+  const { data, error, isLoading } = useSWR(
+    "http://localhost:3000/api/my/mastrogpt/index",
+    fetcher
+  );
+
+  if (!isLoading && !error) {
+    services = data.services;
+  }
+
   return (
     <main className="md:grid grid-cols-2 bg-zinc-800 md:h-screen divide-purple-500 divide-x-2">
       <section id="chat" className="flex flex-col overflow-auto">
@@ -73,13 +41,16 @@ export default function Home() {
               alt="MastroGPT logo"
             />
           </div>
-          <div className="ml-auto">
-            <button
-              type="button"
-              className="bg-zinc-500 hover:bg-zinc-600 py-2 px-4 text-white rounded-md"
-            >
-              TEST
-            </button>
+          <div className="ml-auto flex gap-4">
+            {services.map((service: Service, index: number) => (
+              <button
+                key={index}
+                type="button"
+                className="bg-zinc-500 hover:bg-zinc-600 py-2 px-4 text-white rounded-md"
+              >
+                {service.name}
+              </button>
+            ))}
           </div>
         </div>
         <div className="mt-auto overflow-y-auto">
@@ -102,7 +73,7 @@ export default function Home() {
             </div>
           ))}
         </div>
-        <div className="mt-auto p-4">
+        <div className="p-4">
           <form className="p-4 bg-zinc-900 rounded-md flex items-center gap-4">
             <input
               type="text"
@@ -128,7 +99,16 @@ export default function Home() {
           </form>
         </div>
       </section>
-      <section id="code-output"></section>
+      <section id="code-output">
+        <div className="p-4">
+          <h1 className="text-3xl font-bold text-white mb-2">
+            Welcome to MastroGPT
+          </h1>
+          <p className="text-white">
+            Please select the chat you want to use on the top menu.
+          </p>
+        </div>
+      </section>
     </main>
   );
 }

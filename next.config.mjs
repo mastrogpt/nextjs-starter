@@ -2,6 +2,10 @@
 
 const nextConfig = {
     distDir: 'web',
+    output: 'export',
+    images: {
+        unoptimized:true
+    }, 
     async rewrites() {
         return [
             {
