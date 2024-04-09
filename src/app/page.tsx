@@ -1,9 +1,9 @@
 "use client";
 import { Service } from "@/types";
+import { fetcher } from "@/utils";
 import Image from "next/image";
 import useSWR from "swr";
-const fetcher = (...args: (URL | RequestInfo)[]) =>
-  fetch(...args).then((res) => res.json());
+import { useRouter } from "next/router";
 
 const messagges = [
   {
@@ -17,10 +17,11 @@ const messagges = [
 ];
 
 export default function Home() {
+  const router = useRouter();
   let services: Service[] = [];
 
   const { data, error, isLoading } = useSWR(
-    "http://localhost:3000/api/my/mastrogpt/index",
+    router.basePath + "api/my/mastrogpt/index",
     fetcher
   );
 
