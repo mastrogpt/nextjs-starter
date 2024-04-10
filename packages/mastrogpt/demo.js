@@ -14,7 +14,7 @@ function main(args) {
 
     try {
         // get the state if available
-        counter = parseInt(args.state) + 1;
+        counter = parseInt(args.state || 0) + 1;
     } catch {
         // initialize the state
         counter = 1;
@@ -41,7 +41,7 @@ function sum_to(n) {
 }
 `;
         language = "javascript";
-        output = `Here is some JavaScript code.\n\`\`\`javascript\n${code}\n\`\`\``;
+        output = `Here is some JavaScript code. \n \`\`\`javascript\n${code}\n\`\`\``;
     } else if (input === "chess") {
         chess = "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2";
         output = `Check this chess position.\n\n${chess}`;
@@ -62,7 +62,7 @@ function sum_to(n) {
     </div>
 </form>
 `;
-        output = `Here is some HTML.\n\`\`\`html\n${html}\n\`\`\``;
+        output = `Here is some HTML. \n \`\`\`html\n${html}\n\`\`\``;
     } else if (input === "message") {
         message = "This is the message.";
         title = "This is the title";
