@@ -30,6 +30,7 @@
     "typescript": "^5"
   },
   "nuvolaris": {
-    "devel": "npm run dev"
+    "devel": "npm run dev",
+    "build": "npm run build"
   }
 }
