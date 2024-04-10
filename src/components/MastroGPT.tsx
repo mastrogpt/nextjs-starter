@@ -16,6 +16,7 @@ export default function MastroGPT({ service }: Readonly<{ service: string }>) {
   const defaultMessage = getMessagesByService(service);
   const [messagges, setMessagges] =
     React.useState<ChatMessage[]>(defaultMessage);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   const [requests, setRequests] = React.useState<string>("0");
 
@@ -39,6 +40,8 @@ export default function MastroGPT({ service }: Readonly<{ service: string }>) {
         { role: "user", text: message },
       ]);
 
+      setIsLoading(true);
+
       fetch(`${BASEURL}api/my/${service}`, {
         method: "POST",
         headers: {
@@ -55,6 +58,7 @@ export default function MastroGPT({ service }: Readonly<{ service: string }>) {
           setChatResponse(data);
           setRequests(data.state || "0");
           if (data?.chess) {
+            setIsLoading(true);
             fetch(BASEURL + "api/my/mastrogpt/display", {
               method: "POST",
               headers: {
@@ -65,8 +69,18 @@ export default function MastroGPT({ service }: Readonly<{ service: string }>) {
               .then((response) => response.text())
               .then((data) => {
                 setChatResponse({ html: data });
+              })
+              .finally(() => {
+                setIsLoading(false);
               });
           }
+        })
+        .finally(() => {
+          setIsLoading(false);
+          setTimeout(() => {
+            document.getElementById("chat").children[0].scrollTop =
+              document.getElementById("chat").children[0].scrollTopMax;
+          }, 50);
         });
     }
   };
@@ -112,20 +126,24 @@ export default function MastroGPT({ service }: Readonly<{ service: string }>) {
               disabled={service === ""}
             />
             <button type="submit" className="text-purple-500">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
-                />
-              </svg>
+              {isLoading ? (
+                "Wait..."
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
+                  />
+                </svg>
+              )}
             </button>
           </form>
         </div>

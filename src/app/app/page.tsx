@@ -1,5 +1,5 @@
 "use client";
-import MastroGPT from "../components/MastroGPT";
+import MastroGPT from "@/components/MastroGPT";
 import { Service } from "@/types";
 import { fetcher } from "@/utils";
 import clsx from "clsx";
