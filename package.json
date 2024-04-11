@@ -1,6 +1,10 @@
 {
   "name": "nextjs-starter",
   "version": "0.1.0",
+  "author": {
+    "name": "Marco Ingraiti",
+    "email": "marco.ingraiti@icloud.com"
+  },
   "private": true,
   "scripts": {
     "dev": "next dev",
