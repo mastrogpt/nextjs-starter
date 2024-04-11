@@ -32,10 +32,10 @@ export default function AppPage() {
           <div>
             <button type="button" onClick={() => setSelectedService("")}>
               <Image
-                src="/logo.png"
+                src="/nuv-white.svg"
                 className=""
-                width="64"
-                height="64"
+                width="150"
+                height="41"
                 alt="MastroGPT logo"
               />
             </button>

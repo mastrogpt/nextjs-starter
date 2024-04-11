@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="public/nuv-stacked-color.svg" width="128" height="128" />
+</p>
+
+
 # Next.js MastroGPT Starter
 
 This is a starter template for Next.js with MastroGPT. It includes a sample AI application that uses MastroGPT.
